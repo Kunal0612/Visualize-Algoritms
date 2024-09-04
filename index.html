@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Algorithm Visualizer</title>
+    <style>
+        body {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background-color: #f0f0f0;
+        }
+
+        h1 {
+            margin-bottom: 20px;
+        }
+
+        .button-container {
+            display: flex;
+            gap: 20px;
+        }
+
+        button {
+            padding: 15px 30px;
+            font-size: 18px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            background-color: #007bff;
+            color: white;
+            transition: background-color 0.3s;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Algorithm Visualizer</h1>
+    <div class="button-container">
+        <button onclick="openSortingVisualizer()">Sorting Visualizer</button>
+        <button onclick="openPathFinder()">Path Finder</button>
+    </div>
+
+    <script>
+        function openSortingVisualizer() {
+            window.location.href = 'sorting.html'; // Replace with the actual file name of your sorting visualizer
+        }
+
+        function openPathFinder() {
+            window.location.href = 'pathfinder.html'; // Replace with the actual file name of your pathfinder
+        }
+    </script>
+
+</body>
+</html>
