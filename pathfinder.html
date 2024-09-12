@@ -5,19 +5,23 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Path finder</title>
+    <!-- Css Sheet for Stying -->
     <link rel="stylesheet" href="/style/style.css">
+    <!-- Css Sheet for Stying -->
     <link rel="stylesheet" href="style/utility.css">
-
+    <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
-
+    <!-- There's a tutorial that explains how the visualizer works, using slides with images and descriptions.-->
+    <!-- The tutorial covers features like selecting algorithms, adjusting the speed, changing pixel size, and generating mazes..-->
     <div class="tutorial" id="tutorial">
         <div class="card">
+            <!-- Different Slides to show different tutorials -->
             <div class="upper">
                 <!-- -------- WHAT -->
                 <div class="slide">
-                    <h4>what is path finder visualizer</h4>
+                    <h4>What is path finder visualizer</h4>
                     <div class="img-box"></div>
                     <p>It helps you see how path finding <span class="blue">algorithms</span> find the most efficient
                         <span class="blue">route</span> between source to target on a grid. </p>
@@ -115,7 +119,6 @@
                     </p>
                 </div>
 
-
             </div>
 
             <div class="dots">
@@ -135,15 +138,13 @@
     </div>
 
     <div class="template">
-
         <!-- ================ NAVIGATION BAR ============== -->
+        <!-- The navigation bar includes options for visualizing, clearing paths/boards, generating mazes, and setting grid pixel size and speed. -->
+        <!-- Users can also select different algorithms (e.g., BFS, DFS, Dijkstra’s Algorithm, A*). -->
         <header>
-
             <nav>
                 <a id="logo" href="./index.html">pathfinding visualizer</a>
-
                 <button id="visualize" class="btn">Visualize</button>
-
                 <ul class="nav-menu">
                     <li>
                         <a id="clear-path" href="#">Clear path</a>
@@ -154,7 +155,7 @@
                     <li>
                         <a id="generate-maze" href="#">Generate Maze</a>
                     </li>
-
+                    <!-- Pixel drop -->
                     <li id="pixel" class="drop-box">
                         <a class="drop-toggle" href="#">Pixel<span class="carret"></span></a>
                         <ul class="drop-menu">
@@ -167,7 +168,7 @@
                             <li><a href="#">26px</a></li>
                         </ul>
                     </li>
-
+                    <!-- Speed drop -->
                     <li id="speed" class="drop-box">
                         <a class="drop-toggle" href="#">Speed<span class="carret"></span></a>
                         <ul class="drop-menu">
@@ -176,7 +177,7 @@
                             <li><a href="#">Fast</a></li>
                         </ul>
                     </li>
-
+                    <!-- Algorithm drop -->
                     <li id="algo" class="drop-box">
                         <a class="drop-toggle" href="#">Algorithms <span class="carret"></span></a>
                         <ul class="drop-menu">
@@ -188,48 +189,37 @@
                             <li><a href="#">A* Algorithm</a></li>
                         </ul>
                     </li>
-
-
                 </ul>
-
             </nav>
-
             <!-- ================ GUIDE BAR ============== -->
-
+            <!-- The guide bar explains the different node types used in the visualizer (e.g., Start Node, Target Node, Unvisited Node, Wall Node, Shortest-Path Node). -->
             <ul class="guide">
                 <li>
                     <div class="symbol source"></div>
                     <div class="text">Start Node</div>
                 </li>
-
                 <li>
                     <div class="symbol target"></div>
                     <div class="text">Target Node</div>
                 </li>
-
                 <li>
                     <div class="symbol unvisited"></div>
-                    <div class="text"> Unvisited node</div>
+                    <div class="text">Unvisited node</div>
                 </li>
-
                 <li>
                     <div class="symbol visited"></div>
-                    <div class="text">visited node</div>
+                    <div class="text">Visited node</div>
                 </li>
-
                 <li>
                     <div class="symbol wall"></div>
-                    <div class="text">wall node</div>
+                    <div class="text">Wall node</div>
                 </li>
-
                 <li>
                     <div class="symbol path"></div>
                     <div class="text">Shortest-Path Node</div>
                 </li>
-
                 <div class="tutorial-toggle"></div>
             </ul>
-
             <div class="guide-toggle">
                 <img src="pathfinder_assets/icon/angle-double-down.svg" alt="">
             </div>
@@ -237,11 +227,13 @@
 
 
         <!-- ============ DYNAMIC BOARD ================ -->
+        <!-- The visual representation of the grid is likely handled by JavaScript (board.js). This section is where the interactive pathfinding happens. -->
         <div id="board"><!-- magic --></div>
     </div>
 </body>
 
 
+<!-- The script files (utils.js, controlls.js, board.js, searchAlgo.js, mazeGen.js, and main.js) control various functionalities like maze generation, search algorithms, and user controls. -->
 
 <script src="js/utils.js"></script>
 <script src="js/controlls.js"></script>
