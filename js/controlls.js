@@ -181,7 +181,7 @@ dropOptions.forEach((option) => {
 
         //adding
         option.classList.add('active');
-
+        
         if (document.querySelector('#algo').contains(option)) {
             let text = option.innerText;
             algorithm = text.split(' ')[0];

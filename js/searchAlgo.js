@@ -175,6 +175,13 @@ function Astar() {
                 //Assuming edge weight = 1, between adjacent vertices
                 const edgeWeight = 1;
                 const gScoreToNeighbour = gScore[current.x][current.y] + edgeWeight;
+                // f(n)=g(n)+h(n)
+                /*
+                A*
+                g(n): Actual cost from the start node to the current node.
+                h(n): Heuristic cost from the current node to the goal.
+
+                */ 
                 const fScore = gScoreToNeighbour + heuristicValue(neighbour);
 
                 if (gScoreToNeighbour < gScore[neighbour.x][neighbour.y]) {
@@ -222,7 +229,10 @@ function greedy() {
             { x: current.x + 1, y: current.y },//bottom
             { x: current.x, y: current.y - 1 }//right
         ];
-
+        /*
+        Greedy 
+        h(n): Heuristic cost from the current node to the goal.
+        */ 
         for (const neighbour of neighbours) {
             const key = `${neighbour.x}-${neighbour.y}`;
 

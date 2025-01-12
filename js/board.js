@@ -38,17 +38,25 @@ function renderBoard() {
     // Refreshing the board
     board.innerHTML = '';
     for (let i = 0; i < row; i++) {
+        // The code creates a new <div> element to represent the row 
+        // and assigns it an ID like row-0, row-1, etc. It also adds a row class for styling purposes.
         const rowElement = document.createElement('div');
         rowElement.setAttribute('id', `row-${i}`);
         rowElement.classList.add('row');
         let colList = [];
         for (let j = 0; j < col; j++) {
             const colElement = document.createElement('div');
+            // The col and unvisited classes are added to the column for styling, 
+            // indicating it's a cell and has not yet been interacted with.
             colElement.classList.add('col', 'unvisited');
+            // Each cell is given a unique ID like 0-0, 0-1, etc.
             colElement.setAttribute('id', `${i}-${j}`);
             rowElement.appendChild(colElement);
             colList.push(colElement);
         }
+        // colList.forEach(col => {
+        //     console.log(col); // This will print each column element (div element) in the console
+        // })
         board.appendChild(rowElement);
         matrix.push(colList);
     }
@@ -121,9 +129,7 @@ function boardInteraction(cells) {
             const triggerElement = document.elementFromPoint(e.clientX, e.clientY);
             if (triggerElement == null || !triggerElement.classList.contains('col')) return;
             cordinate = { ...triggerElement.id.split('-') };
-
             if (draging && dragStart) {
-
                 cells.forEach(cell => {
                     cell.classList.remove(dragStart);
                 })
@@ -138,8 +144,6 @@ function boardInteraction(cells) {
                     target.y = Number(cordinate[1]);
                 }
             }
-
-
             else if (drawing) {
                 if (triggerElement.classList.contains('source') || triggerElement.classList.contains('target'))
                     return;
@@ -155,6 +159,7 @@ function boardInteraction(cells) {
         cell.addEventListener('pointermove', pointMove);
         cell.addEventListener('pointerup', pointUp);
 
+        // for toggleing add and removing the wall
         cell.addEventListener('click', () => {
             if (cell.classList.contains('source') || cell.classList.contains('target'))
                 return;
@@ -163,5 +168,4 @@ function boardInteraction(cells) {
             cell.classList.toggle('wall');
         })
     })
-
 }

@@ -18,180 +18,189 @@ const SELECTED = 'blueviolet';
 const LEFT = 'gold';
 const RIGHT = 'orangered';
 
-var size;
-var delay;
+let size;
+let delay;
 
-var arr = [];
+let arr = [];
 
-var array_container_width;
-var element_width;
-var element_width_max;
-var margin_element;
+let array_container_width;
+let element_width;
+let element_width_max;
+let margin_element;
 
-var algo_selected;
+let algo_selected;
 
 function updateValues() {
-    array_container_width = Math.floor( $("#array-container").width() );
-    element_width_max = Math.floor(array_container_width / 20);
+  const arrayContainer = document.getElementById("array-container");
+  array_container_width = Math.floor(arrayContainer.offsetWidth);
+  element_width_max = Math.floor(array_container_width / 20);
 
-    margin_element = 2;
-    if( parseInt( $(window).width() ) < 1200 )
-        margin_element = 1;
+  margin_element = window.innerWidth < 1200 ? 1 : 2;
 }
 
 function findElementWidth() {
-    element_width = Math.floor(array_container_width / size);
-    element_width -= 2 * margin_element;
+  element_width = Math.floor(array_container_width / size) - 2 * margin_element;
 
-    if(element_width > element_width_max)
-        element_width = element_width_max;
+  if (element_width > element_width_max) {
+    element_width = element_width_max;
+  }
 }
 
 function createArray() {
-    arr = [];
-    $("#array").html('');
+  arr = [];
+  const arrayDiv = document.getElementById("array");
+  arrayDiv.innerHTML = '';
 
-    for(var i = 0; i < size; i++) {
-        var n = Math.floor( Math.random() * (MAX - MIN + 1) ) + MIN;
-        arr.push(n);
-        
-        var $element = $('<div>');
-        $element.attr('id', "e" + i);
-        $element.attr('class', "element");
-        $element.css('background-color', UNSORTED);
-        $element.css('width', element_width.toString() + 'px');
-        $element.css('height', n.toString() + 'px');
-        $element.css('margin-left', margin_element + 'px');
-        $element.css('margin-right', margin_element + 'px');
-        $element.appendTo("#array");
-    }
+  for (let i = 0; i < size; i++) {
+    const n = Math.floor(Math.random() * (MAX - MIN + 1)) + MIN;
+    arr.push(n);
+
+    const element = document.createElement("div");
+    element.id = "e" + i;
+    element.className = "element";
+    element.style.backgroundColor = UNSORTED;
+    element.style.width = `${element_width}px`;
+    element.style.height = `${n}px`;
+    element.style.marginLeft = `${margin_element}px`;
+    element.style.marginRight = `${margin_element}px`;
+
+    arrayDiv.appendChild(element);
+  }
 }
 
 function setHeight(id, height) {
-    $("#e" + id).css('height', height);
+  const element = document.getElementById("e" + id);
+  if (element) {
+    element.style.height = height + "px";
+  }
 }
 
 function setColor(id, color) {
-    $("#e" + id).css('background-color', color);
+  const element = document.getElementById("e" + id);
+  if (element) {
+    element.style.backgroundColor = color;
+  }
 }
 
 function setColorRange(p, r, color) {
-    for(var i = p; i <= r; i++)
-        $("#e" + i).css('background-color', color);
+  for (let i = p; i <= r; i++) {
+    setColor(i, color);
+  }
 }
 
 function swap(a, b) {
-    var temp = arr[a];
-    arr[a] = arr[b];
-    arr[b] = temp;
+  // Swap values in the array
+  const temp = arr[a];
+  arr[a] = arr[b];
+  arr[b] = temp;
 
-    var h1 = $("#e" + a).css('height');
-    var h2 = $("#e" + b).css('height');
+  // Swap heights in the DOM
+  const elementA = document.getElementById("e" + a);
+  const elementB = document.getElementById("e" + b);
 
-    setHeight(a, h2);
-    setHeight(b, h1);
+  if (elementA && elementB) {
+    const heightA = elementA.style.height;
+    const heightB = elementB.style.height;
+
+    elementA.style.height = heightB;
+    elementB.style.height = heightA;
+  }
 }
 
 function disableOthers() {
-    $("#sort").prop('disabled', true);
-    $("#randomize").prop('disabled', true);
-    $("#size-slider").prop('disabled', true);
+  document.getElementById("sort").disabled = true;
+  document.getElementById("randomize").disabled = true;
+  document.getElementById("size-slider").disabled = true;
 }
 
 function enableOthers() {
-    $("#sort").prop('disabled', false);
-    $("#randomize").prop('disabled', false);
-    $("#size-slider").prop('disabled', false);
+  document.getElementById("sort").disabled = false;
+  document.getElementById("randomize").disabled = false;
+  document.getElementById("size-slider").disabled = false;
 }
 
 function sleep(ms) {
-    return new Promise(resolve => setTimeout(resolve, ms));
+  return new Promise(resolve => setTimeout(resolve, ms));
 }
 
-$(document).ready(function() {
-    $("#size-slider").attr('min', MIN_SIZE);
-    $("#size-slider").attr('max', MAX_SIZE);
-    $("#size-slider").attr('value', DEFAULT_SIZE);
+document.addEventListener("DOMContentLoaded", () => {
+  const sizeSlider = document.getElementById("size-slider");
+  const speedSlider = document.getElementById("speed-slider");
 
-    $("#speed-slider").attr('min', MIN_SPEED);
-    $("#speed-slider").attr('max', MAX_SPEED);
-    $("#speed-slider").attr('value', DEFAULT_SPEED);
+  sizeSlider.min = MIN_SIZE;
+  sizeSlider.max = MAX_SIZE;
+  sizeSlider.value = DEFAULT_SIZE;
 
-    size = DEFAULT_SIZE;
-    delay = WAITING_TIME * Math.pow(2, MAX_SPEED - DEFAULT_SPEED);
+  speedSlider.min = MIN_SPEED;
+  speedSlider.max = MAX_SPEED;
+  speedSlider.value = DEFAULT_SPEED;
 
-    updateValues();
-    
+  size = DEFAULT_SIZE;
+  delay = WAITING_TIME * Math.pow(2, MAX_SPEED - DEFAULT_SPEED);
+
+  updateValues();
+  findElementWidth();
+  createArray();
+
+  document.getElementById("randomize").addEventListener("click", createArray);
+
+  document.querySelectorAll(".algo-btn").forEach(btn => {
+    btn.addEventListener("click", () => {
+      algo_selected = btn.innerHTML;
+
+      document.querySelector(".algo-btn-active")?.classList.remove("algo-btn-active");
+      btn.classList.add("algo-btn-active");
+
+      const warning = document.getElementById("no-algo-warning");
+      warning.classList.remove("display-flex");
+      warning.classList.add("display-none");
+    });
+  });
+
+  document.getElementById("sort").addEventListener("click", async () => {
+    disableOthers();
+
+    setColorRange(0, size - 1, UNSORTED);
+
+    if (algo_selected === "Bubble Sort") await bubbleSort();
+    else if (algo_selected === "Selection Sort") await selectionSort();
+    else if (algo_selected === "Insertion Sort") await insertionSort();
+    else if (algo_selected === "Merge Sort") await mergeSort(0, size - 1);
+    else if (algo_selected === "Quicksort") await quicksort(0, size - 1);
+    else if (algo_selected === "Heapsort") await heapsort();
+    else {
+      const warning = document.getElementById("no-algo-warning");
+      warning.classList.remove("display-none");
+      warning.classList.add("display-flex");
+    }
+
+    enableOthers();
+  });
+
+  sizeSlider.addEventListener("input", () => {
+    size = parseInt(sizeSlider.value, 10);
     findElementWidth();
     createArray();
+  });
 
-    $("#randomize").click(
-        function() {
-            createArray();
+  speedSlider.addEventListener("input", () => {
+    delay = WAITING_TIME * Math.pow(2, MAX_SPEED - parseInt(speedSlider.value, 10));
+  });
+
+  window.addEventListener("resize", () => {
+    const arrayContainer = document.getElementById("array-container");
+    if (array_container_width !== Math.floor(arrayContainer.offsetWidth)) {
+      updateValues();
+      findElementWidth();
+
+      for (let i = 0; i < size; i++) {
+        const element = document.getElementById("e" + i);
+        if (element) {
+          element.style.width = `${element_width}px`;
+          element.style.marginLeft = `${margin_element}px`;
+          element.style.marginRight = `${margin_element}px`;
         }
-    );
-
-    $(".algo-btn").click(
-        function() {
-            algo_selected = $(this).html();
-
-            $(".algo-btn-active").removeClass('algo-btn-active');
-            $(this).addClass('algo-btn-active');
-
-            $("#no-algo-warning").removeClass('display-flex');
-            $("#no-algo-warning").addClass('display-none');
-        }
-    );
-
-    $("#sort").click(
-        async function() {
-            disableOthers();
-
-            setColorRange(0, size - 1, UNSORTED);
-
-            if(algo_selected == "Bubble Sort")
-                await bubbleSort();
-            else if(algo_selected == "Selection Sort")
-                await selectionSort();
-            else if(algo_selected == "Insertion Sort")
-                await insertionSort();
-            else  if(algo_selected == "Merge Sort")
-                await mergeSort(0, size - 1);
-            else if(algo_selected == "Quicksort")
-                await quicksort(0, size - 1);
-            else if(algo_selected == "Heapsort")
-                await heapsort();
-            else {
-                $("#no-algo-warning").removeClass('display-none');
-                $("#no-algo-warning").addClass('display-flex');
-            }
-
-            enableOthers();
-        }
-    );
-
-    $("#size-slider").on('input', function() {
-        size = $(this).val();
-
-        findElementWidth();
-        createArray();
-    });
-
-    $("#speed-slider").on('input', function() {
-        delay = WAITING_TIME * Math.pow(2, MAX_SPEED - $(this).val());
-    });
-
-    $(window).resize(function() {
-        if(array_container_width != Math.floor( $("#array-container").width() )) {
-            updateValues();
-
-            findElementWidth();
-
-            for(var i = 0; i < size; i++) {
-                $("#e" + i).css('width', element_width.toString() + 'px');
-                $("#e" + i).css('margin-left', margin_element + 'px');
-                $("#e" + i).css('margin-right', margin_element + 'px');
-            }
-        }
-    });
+      }
+    }
+  });
 });

@@ -1,3 +1,4 @@
+
 var heapSize;
 
 function left(i) {
